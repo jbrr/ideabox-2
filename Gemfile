@@ -26,3 +26,8 @@ group :development do
   gem 'spring'
   gem 'capybara'
 end
+
+group :test do
+  gem 'simplecov'
+  gem 'minitest-reporters'
+end
