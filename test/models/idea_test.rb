@@ -16,6 +16,6 @@ class IdeaTest < ActiveSupport::TestCase
   end
 
   test "an idea has a default quality" do
-    assert_equal idea.quality, 1
+    assert_equal idea.quality, "swill"
   end
 end
