@@ -6,6 +6,7 @@ class UserCanSeeIdeasTest < ActionDispatch::IntegrationTest
   def setup
     Capybara.app = Ideabox2::Application
     Capybara.current_driver = :selenium
+    Capybara.default_max_wait_time = 5
   end
 
   test "viewing ideas" do
