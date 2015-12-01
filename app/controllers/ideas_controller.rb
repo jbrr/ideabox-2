@@ -1,5 +1,5 @@
 class IdeasController < ApplicationController
   def index
-    @ideas = Idea.all.sort_by(&:created_at).reverse
+    @ideas = Idea.all
   end
 end
