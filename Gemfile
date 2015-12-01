@@ -25,10 +25,12 @@ end
 group :development do
   gem 'web-console', '~> 2.0'
   gem 'spring'
-  gem 'capybara'
 end
 
 group :test do
   gem 'simplecov'
   gem 'minitest-reporters'
+  gem 'launchy'
+  gem 'selenium-webdriver'
+  gem 'capybara'
 end
