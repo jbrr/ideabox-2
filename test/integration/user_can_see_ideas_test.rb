@@ -13,6 +13,9 @@ class UserCanSeeIdeasTest < ActionDispatch::IntegrationTest
     Idea.create(title: "Later Idea",
                 body: "Later Body",
                 created_at: t + 10)
+    Idea.create(title: "Long Idea",
+                body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et tellus non ligula cursus commodo. Proin sed.",
+                created_at: t)
   end
 
   test "viewing ideas" do
@@ -26,5 +29,11 @@ class UserCanSeeIdeasTest < ActionDispatch::IntegrationTest
   test "ideas are sorted with the most recent first" do
     visit "/"
     assert page.all("li")[0].has_content?("Later Idea")
+  end
+
+  test "ideas longer than 100 characters are truncated" do
+    visit "/"
+    save_and_open_page
+    assert page.has_content?("Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et tellus non ligula cursus...")
   end
 end
