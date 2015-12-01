@@ -6,7 +6,13 @@ class UserCanSeeIdeasTest < ActionDispatch::IntegrationTest
   def setup
     Capybara.app = Ideabox2::Application
 
-    Idea.create(title: "Test Idea", body: "Test Body")
+    t = Time.now
+    Idea.create(title: "Test Idea",
+                body: "Test Body",
+                created_at: t)
+    Idea.create(title: "Later Idea",
+                body: "Later Body",
+                created_at: t + 10)
   end
 
   test "viewing ideas" do
@@ -15,5 +21,10 @@ class UserCanSeeIdeasTest < ActionDispatch::IntegrationTest
     assert page.has_content?("Test Idea")
     assert page.has_content?("Test Body")
     assert page.has_content?("Swill")
+  end
+
+  test "ideas are sorted with the most recent first" do
+    visit "/"
+    assert page.all("li")[0].has_content?("Later Idea")
   end
 end
