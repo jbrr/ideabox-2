@@ -1,5 +1,6 @@
 $(document).ready(function() {
   getIdeas();
+  createIdea();
 });
 
 function getIdeas() {
@@ -12,7 +13,7 @@ function getIdeas() {
 }
 
 function renderIdea(idea) {
-  $("#latest-ideas").append(
+  $("#latest-ideas").prepend(
     "<div class='idea' data-id='"
     + idea.id
     + "'><h5>"
@@ -32,4 +33,23 @@ function truncateBody(body) {
   } else {
     return body
   }
+}
+
+function createIdea() {
+  $('#create-idea').on('click', function(){
+    var ideaTitle  = $('#idea-title').val()
+    var ideaBody   = $('#idea-body').val()
+    var ideaParams = {
+      idea: {
+        title: ideaTitle,
+        body: ideaBody
+      }
+    }
+
+    $('#idea-title').val('')
+    $('#idea-body').val('')
+
+    $.post("api/v1/ideas.json", ideaParams, $(this).serialize())
+      .done(renderIdea)
+  })
 }
