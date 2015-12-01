@@ -1,11 +1,16 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  title: MyString
-  body: MyString
-  quality: 1
+  title: Test Idea
+  body: Test Body
+  created_at: <%= Time.now %>
 
 two:
-  title: MyString
-  body: MyString
-  quality: 1
+  title: Later Idea
+  body: Later Body
+  created_at: <%= Time.now + 10 %>
+
+three:
+  title: Long Idea
+  body: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec et tellus non ligula cursus commodo. Proin sed.
+  created_at: <%= Time.now %>

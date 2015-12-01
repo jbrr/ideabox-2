@@ -1,10 +1,16 @@
-<h1>Ideabox</h1>
-<ul>
-<% @ideas.each do |idea| %>
-<li>
-<h2><%= idea.title %></h2>
-<h4><%= truncate_body(idea.body)  %></h4>
-<h5><%= idea.quality.capitalize %></h5>
-</li>
-<% end %>
-</ul>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-12">
+      <h1>IdeaBox</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-8">
+      <h3>Latest Ideas</h3>
+      <div id="latest-ideas">
+      </div>
+    </div>
+    <div class="col-md-4">
+    </div>
+  </div>
+</div>
