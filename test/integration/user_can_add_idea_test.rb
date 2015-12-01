@@ -1,14 +1,6 @@
 require "test_helper"
 
 class UserCanAddIdeaTest < ActionDispatch::IntegrationTest
-  include Capybara::DSL
-
-  def setup
-    Capybara.app = Ideabox2::Application
-    Capybara.current_driver = :selenium
-    Capybara.default_max_wait_time = 5
-  end
-
   test "user can add idea" do
     visit "/"
     fill_in("idea-title", with: "New Idea")
