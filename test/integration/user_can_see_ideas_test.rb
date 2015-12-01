@@ -1,19 +1,6 @@
 require "test_helper"
 
 class UserCanSeeIdeasTest < ActionDispatch::IntegrationTest
-  # include Capybara::DSL
-  #
-  # def setup
-  #   Capybara.app = Ideabox2::Application
-  #   Capybara.current_driver = :selenium
-  #   Capybara.default_max_wait_time = 5
-  #   DatabaseCleaner.start
-  # end
-  #
-  # def teardown
-  #   DatabaseCleaner.clean
-  # end
-
   test "viewing ideas" do
     visit "/"
     assert page.has_content?("Test Idea")
