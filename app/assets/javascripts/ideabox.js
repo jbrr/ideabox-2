@@ -68,8 +68,8 @@ function deleteIdea() {
     $.ajax({
       type: 'DELETE',
       url: 'api/v1/ideas/' + $idea.attr('data-id') + '.json',
-      success: function() {
-        renderIdea;
+      success: function(response) {
+        $idea.remove();
       }
     });
   });
@@ -84,7 +84,7 @@ function promoteIdea() {
         type: 'PATCH',
         data: {'idea': {'quality': 'promote'}},
         success: function() {
-          renderIdea;
+          getIdea($idea);
         }
       })
     }
@@ -100,9 +100,18 @@ function demoteIdea() {
         type: 'PATCH',
         data: {'idea': {'quality': 'demote'}},
         success: function() {
-          renderIdea;
+          getIdea($idea);
         }
       })
     }
   })
+}
+
+function getIdea($idea) {
+  $.getJSON('api/v1/ideas/' + $idea.attr('data-id') + '.json')
+    .then(function(response) {
+      var $quality = $idea.find('.quality');
+      $quality.html('Quality: ' + response.quality);
+      $idea.attr('data-quality', response.quality);
+  });
 }

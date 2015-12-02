@@ -35,9 +35,9 @@ class Api::V1::IdeasController < ApplicationController
 
   def update_quality(idea)
     if params[:idea][:quality] == "promote"
-      respond_with idea[:quality] += 1, location: nil
+      response = respond_with idea[:quality] += 1, location: nil
     else
-      respond_with idea[:quality] -= 1, location: nil
+      response = respond_with idea[:quality] -= 1, location: nil
     end
     idea.save
   end
