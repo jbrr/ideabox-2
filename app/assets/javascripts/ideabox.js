@@ -2,6 +2,7 @@ $(document).ready(function() {
   getIdeas();
   createIdea();
   deleteIdea();
+  promoteIdea();
 });
 
 function getIdeas() {
@@ -17,13 +18,17 @@ function renderIdea(idea) {
   $("#latest-ideas").prepend(
     "<div class='idea' data-id='"
     + idea.id
+    + "' data-quality='"
+    + idea.quality
     + "'><h5>"
     + idea.title
     + "</h5><p>"
     + truncateBody(idea.body)
-    + "</p><p class='quality'>"
+    + "</p><p class='quality'>Quality: "
     + idea.quality
-    + "</p><button id='delete-idea' class='btn btn-default btn-xs'>Delete</button></div>"
+    + "</p><button class='glyphicon glyphicon-thumbs-up'></button> "
+    + "<span class='glyphicon glyphicon-thumbs-down'></span><br>"
+    + "<button id='delete-idea' class='btn btn-default btn-xs'>Delete</button></div>"
   )
 }
 
@@ -67,4 +72,20 @@ function deleteIdea() {
       }
     });
   });
+}
+
+function promoteIdea() {
+  $('#latest-ideas').delegate('.glyphicon-thumbs-up', 'click', function() {
+    var $idea = $(this).closest('.idea');
+    if ($idea.attr('data-quality') !== "genius") {
+      $.ajax({
+        url: 'api/v1/ideas/' + $idea.attr('data-id') + '.json',
+        type: 'PATCH',
+        data: {'idea': {'quality': 'promote'}},
+        success: function() {
+          console.log("Successful")
+        }
+      }).done(renderIdea)
+    }
+  })
 }
