@@ -2,6 +2,8 @@ $(document).ready(function() {
   getIdeas();
   createIdea();
   deleteIdea();
+  promoteIdea();
+  demoteIdea();
 });
 
 function getIdeas() {
@@ -17,13 +19,17 @@ function renderIdea(idea) {
   $("#latest-ideas").prepend(
     "<div class='idea' data-id='"
     + idea.id
+    + "' data-quality='"
+    + idea.quality
     + "'><h5>"
     + idea.title
     + "</h5><p>"
     + truncateBody(idea.body)
-    + "</p><p class='quality'>"
+    + "</p><p class='quality'>Quality: "
     + idea.quality
-    + "</p><button id='delete-idea' class='btn btn-default btn-xs'>Delete</button></div>"
+    + "</p><button class='glyphicon glyphicon-thumbs-up'></button> "
+    + "<button class='glyphicon glyphicon-thumbs-down'></button><br>"
+    + "<button id='delete-idea' class='btn btn-default btn-xs'>Delete</button></div>"
   )
 }
 
@@ -62,9 +68,50 @@ function deleteIdea() {
     $.ajax({
       type: 'DELETE',
       url: 'api/v1/ideas/' + $idea.attr('data-id') + '.json',
-      success: function() {
+      success: function(response) {
         $idea.remove();
       }
     });
+  });
+}
+
+function promoteIdea() {
+  $('#latest-ideas').delegate('.glyphicon-thumbs-up', 'click', function() {
+    var $idea = $(this).closest('.idea');
+    if ($idea.attr('data-quality') !== "genius") {
+      $.ajax({
+        url: 'api/v1/ideas/' + $idea.attr('data-id') + '.json',
+        type: 'PATCH',
+        data: {'idea': {'quality': 'promote'}},
+        success: function() {
+          getIdea($idea);
+        }
+      })
+    }
+  })
+}
+
+function demoteIdea() {
+  $('#latest-ideas').delegate('.glyphicon-thumbs-down', 'click', function() {
+    var $idea = $(this).closest('.idea');
+    if ($idea.attr('data-quality') !== "swill") {
+      $.ajax({
+        url: 'api/v1/ideas/' + $idea.attr('data-id') + '.json',
+        type: 'PATCH',
+        data: {'idea': {'quality': 'demote'}},
+        success: function() {
+          getIdea($idea);
+        }
+      })
+    }
+  })
+}
+
+function getIdea($idea) {
+  $.getJSON('api/v1/ideas/' + $idea.attr('data-id') + '.json')
+    .then(function(response) {
+      var $quality = $idea.find('.quality');
+      $quality.html('Quality: ' + response.quality);
+      $idea.attr('data-quality', response.quality);
   });
 }
