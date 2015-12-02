@@ -3,6 +3,7 @@ $(document).ready(function() {
   createIdea();
   deleteIdea();
   promoteIdea();
+  demoteIdea();
 });
 
 function getIdeas() {
@@ -27,7 +28,7 @@ function renderIdea(idea) {
     + "</p><p class='quality'>Quality: "
     + idea.quality
     + "</p><button class='glyphicon glyphicon-thumbs-up'></button> "
-    + "<span class='glyphicon glyphicon-thumbs-down'></span><br>"
+    + "<button class='glyphicon glyphicon-thumbs-down'></button><br>"
     + "<button id='delete-idea' class='btn btn-default btn-xs'>Delete</button></div>"
   )
 }
@@ -68,7 +69,7 @@ function deleteIdea() {
       type: 'DELETE',
       url: 'api/v1/ideas/' + $idea.attr('data-id') + '.json',
       success: function() {
-        $idea.remove();
+        renderIdea;
       }
     });
   });
@@ -83,9 +84,25 @@ function promoteIdea() {
         type: 'PATCH',
         data: {'idea': {'quality': 'promote'}},
         success: function() {
-          console.log("Successful")
+          renderIdea;
         }
-      }).done(renderIdea)
+      })
+    }
+  })
+}
+
+function demoteIdea() {
+  $('#latest-ideas').delegate('.glyphicon-thumbs-down', 'click', function() {
+    var $idea = $(this).closest('.idea');
+    if ($idea.attr('data-quality') !== "swill") {
+      $.ajax({
+        url: 'api/v1/ideas/' + $idea.attr('data-id') + '.json',
+        type: 'PATCH',
+        data: {'idea': {'quality': 'demote'}},
+        success: function() {
+          renderIdea;
+        }
+      })
     }
   })
 }
