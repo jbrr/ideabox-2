@@ -24,8 +24,4 @@ class ActionDispatch::IntegrationTest
     Capybara.current_driver = :selenium
     Capybara.default_max_wait_time = 5
   end
-
-  def teardown
-    Capybara.reset_sessions!
-  end
 end

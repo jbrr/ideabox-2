@@ -1,23 +1,27 @@
 require "test_helper"
 
 class UserCanChangeQualityOfIdeaTest < ActionDispatch::IntegrationTest
+  def teardown
+    Capybara.reset_sessions!
+  end
+  
   test "user can promote idea" do
     visit "/"
-    first("#promote-idea").click
-    assert page.has_content?("plausible")
+    first(".glyphicon-thumbs-up").click
+    assert page.has_content?("Plausible")
 
-    first("#promote-idea").click
-    assert page.has_content?("genius")
+    first(".glyphicon-thumbs-up").click
+    assert page.has_content?("Genius")
   end
 
   test "user can demote idea" do
     visit "/"
-    first("promote-idea").click
-    first("promote-idea").click
-    first("#demote-idea").click
-    assert page.has_content?("plausible")
+    first(".glyphicon-thumbs-up").click
+    first(".glyphicon-thumbs-up").click
+    first(".glyphicon-thumbs-down").click
+    assert page.has_content?("Plausible")
 
-    first("#demote-idea").click
-    assert page.all(".idea").first.has_content?("swill")
+    first(".glyphicon-thumbs-down").click
+    assert page.all(".idea").first.has_content?("Swill")
   end
 end
