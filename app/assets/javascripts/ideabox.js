@@ -4,6 +4,7 @@ $(document).ready(function() {
   deleteIdea();
   promoteIdea();
   demoteIdea();
+  searchIdeas();
 });
 
 function getIdeas() {
@@ -130,4 +131,18 @@ function getIdea($idea) {
       $quality.html('Quality: ' + response.quality);
       $idea.attr('data-quality', response.quality);
   });
+}
+
+function searchIdeas() {
+  $("#filter").keyup(function(){
+		var filter = $(this).val(), count = 0;
+		$("#latest-ideas .idea").each(function(){
+			if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+				$(this).fadeOut();
+			} else {
+				$(this).show();
+				count++;
+			}
+		});
+	});
 }
