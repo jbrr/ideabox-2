@@ -1,10 +1,6 @@
 require "test_helper"
 
 class UserCanAddIdeaTest < ActionDispatch::IntegrationTest
-  def teardown
-    Capybara.reset_sessions!
-  end
-  
   test "user can add idea" do
     visit "/"
     fill_in("idea-title", with: "New Idea")

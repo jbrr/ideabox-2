@@ -1,13 +1,15 @@
 require "simplecov"
 SimpleCov.start("rails")
 
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
-require 'rails/test_help'
-require 'capybara/rails'
+ENV["RAILS_ENV"] ||= "test"
+require File.expand_path("../../config/environment", __FILE__)
+require "rails/test_help"
+require "capybara/rails"
+require "database_cleaner"
 require "minitest/reporters"
 
 Minitest::Reporters.use!
+DatabaseCleaner.strategy = :truncation
 
 class ActiveSupport::TestCase
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
@@ -23,5 +25,10 @@ class ActionDispatch::IntegrationTest
     Capybara.app = Ideabox2::Application
     Capybara.current_driver = :selenium
     Capybara.default_max_wait_time = 5
+  end
+
+  def teardown
+    Capybara.reset_sessions!
+    DatabaseCleaner.clean
   end
 end
