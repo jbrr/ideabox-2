@@ -21,9 +21,9 @@ function renderIdea(idea) {
     + idea.id
     + "' data-quality='"
     + idea.quality
-    + "'><h5>"
+    + "'><h5 contenteditable='true' class='title-editable'>"
     + idea.title
-    + "</h5><p>"
+    + "</h5><p contenteditable='true' class='body-editable'>"
     + truncateBody(idea.body)
     + "</p><p class='quality'>Quality: "
     + idea.quality
@@ -31,6 +31,8 @@ function renderIdea(idea) {
     + "<button class='glyphicon glyphicon-thumbs-down'></button><br>"
     + "<button id='delete-idea' class='btn btn-default btn-xs'>Delete</button></div>"
   )
+  editTitle();
+  editBody();
 }
 
 function truncateBody(body) {
@@ -75,36 +77,50 @@ function deleteIdea() {
   });
 }
 
-function promoteIdea() {
-  $('#latest-ideas').delegate('.glyphicon-thumbs-up', 'click', function() {
-    var $idea = $(this).closest('.idea');
-    if ($idea.attr('data-quality') !== "genius") {
+function editTitle(){
+  $('.title-editable').keydown(function(event) {
+    if(event.keyCode === 13) {
+      var $title = event.currentTarget.textContent;
+      var $idea = $(this).closest('.idea');
+
       $.ajax({
-        url: 'api/v1/ideas/' + $idea.attr('data-id') + '.json',
         type: 'PATCH',
-        data: {'idea': {'quality': 'promote'}},
-        success: function() {
-          getIdea($idea);
+        url: '/api/v1/ideas/' + $idea.attr('data-id') + '.json',
+        data: {idea: {title: $title}},
+        success: function(idea){
+          $(event.target).blur();
+          updateTitle($idea, idea.title);
         }
-      })
+      });
     }
-  })
+  });
 }
 
-function demoteIdea() {
-  $('#latest-ideas').delegate('.glyphicon-thumbs-down', 'click', function() {
-    var $idea = $(this).closest('.idea');
-    if ($idea.attr('data-quality') !== "swill") {
+function updateTitle(idea, title) {
+  $(idea).find('.title-editable').html(title);
+}
+
+function editBody() {
+  $('.body-editable').keydown(function(event) {
+    if(event.keyCode === 13) {
+      var $body = event.currentTarget.textContent;
+      var $idea = $(this).closest('.idea');
+
       $.ajax({
-        url: 'api/v1/ideas/' + $idea.attr('data-id') + '.json',
         type: 'PATCH',
-        data: {'idea': {'quality': 'demote'}},
-        success: function() {
-          getIdea($idea);
+        url: 'api/v1/ideas/' + $idea.attr('data-id') + '.json',
+        data: {idea: {body: $body}},
+        success: function(idea) {
+          $(event.target).blur();
+          updateBody($idea, idea.body);
         }
-      })
+      });
     }
-  })
+  });
+}
+
+function updateBody(idea, body) {
+  $(idea).find('.body-editable').html(body);
 }
 
 function getIdea($idea) {

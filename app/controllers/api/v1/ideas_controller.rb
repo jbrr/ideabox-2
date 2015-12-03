@@ -22,7 +22,8 @@ class Api::V1::IdeasController < ApplicationController
     if params[:idea][:quality]
       update_quality(idea)
     else
-      respond_with idea.update(idea_params), location: nil
+      idea.update(idea_params)
+      respond_with idea, json: idea
     end
     idea.save
   end
