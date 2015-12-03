@@ -1,10 +1,6 @@
 require "test_helper"
 
-class UserCanChangeQualityOfIdeaTest < ActionDispatch::IntegrationTest
-  def teardown
-    Capybara.reset_sessions!
-  end
-  
+class UserCanChangeQualityOfIdeaTest < ActionDispatch::IntegrationTest  
   test "user can promote idea" do
     visit "/"
     first(".glyphicon-thumbs-up").click

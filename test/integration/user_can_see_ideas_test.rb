@@ -1,10 +1,6 @@
 require "test_helper"
 
 class UserCanSeeIdeasTest < ActionDispatch::IntegrationTest
-  def teardown
-    Capybara.reset_sessions!
-  end
-  
   test "viewing ideas" do
     visit "/"
     assert page.has_content?("Test Idea")

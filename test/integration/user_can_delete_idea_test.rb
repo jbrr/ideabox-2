@@ -1,10 +1,6 @@
 require "test_helper"
 
 class UserCanDeleteIdeaTest < ActionDispatch::IntegrationTest
-  def teardown
-    Capybara.reset_sessions!
-  end
-
   test "user deletes an idea" do
     visit "/"
     fill_in("idea-title", with: "New Idea")
@@ -14,7 +10,6 @@ class UserCanDeleteIdeaTest < ActionDispatch::IntegrationTest
     assert page.has_content?("New Body")
 
     first("#delete-idea").click
-    save_and_open_page
     refute page.has_content?("New Idea")
   end
 end

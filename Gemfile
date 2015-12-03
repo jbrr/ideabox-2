@@ -33,4 +33,5 @@ group :test do
   gem 'launchy'
   gem 'selenium-webdriver'
   gem 'capybara'
+  gem 'database_cleaner'
 end

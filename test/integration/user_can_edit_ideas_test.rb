@@ -1,10 +1,6 @@
 require "test_helper"
 
 class UserCanEditIdeasTest < ActionDispatch::IntegrationTest
-  def teardown
-    Capybara.reset_sessions!
-  end
-
   test "user can edit title" do
     visit "/"
     title = first(:xpath, "//h5[@contenteditable='true']")
