@@ -12,7 +12,9 @@ To install:
 
 4. `rake db:setup`
 
-5. visit `localhost:3000`
+5. `rails s`
+
+6. visit `localhost:3000`
 
 To run tests:
 
