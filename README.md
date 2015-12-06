@@ -20,4 +20,4 @@ To run tests:
 
 * `rake test`
 
-* **Nota Bene**: At the moment, integration tests fail if they run in the wrong order. It's some issue that I haven't figured out yet that involves Capybara, Selenium, and JavaScript now getting along very well. 
+* **Nota Bene**: At the moment, integration tests fail if they run in the wrong order. It's some issue that I haven't figured out yet that involves Capybara, Selenium, and JavaScript not getting along very well. 
